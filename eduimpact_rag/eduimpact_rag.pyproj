@@ -59,7 +59,9 @@
     <Folder Include="eduimpact_rag\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chatbot\templates\chatbot\chat.html" />
     <Content Include="chatbot\templates\chatbot\home.html" />
+    <Content Include="chatbot\templates\chatbot\project_list.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="chatbot\static\chatbot\content\bootstrap.css" />

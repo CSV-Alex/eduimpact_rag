@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Mis Proyectos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .project {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .chat-btn {
+            background: #007cba;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'home' %}" class="home-link">← Crear Nuevo Proyecto</a>
+    <h1>Mis Proyectos Educativos</h1>
+
+    {% if projects %}
+    {% for project in projects %}
+    <div class="project">
+        <h3>{{ project.name }}</h3>
+        <p><strong>Descripcion:</strong> {{ project.description }}</p>
+        <p><strong>Creado:</strong> {{ project.created_at|date:"d/m/Y" }}</p>
+        <a href="{% url 'chat_interface' project.id %}" class="btn chat-btn">Chat con Asistente</a>
+        <button class="btn delete-btn" onclick="deleteProject({{ project.id }})">Eliminar</button>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No tienes proyectos creados. <a href="{% url 'home' %}">Crear el primero</a></p>
+    {% endif %}
+
+    <script>
+        function deleteProject(projectId) {
+            if (confirm('¿Estas seguro de eliminar este proyecto?')) {
+                fetch(`/project/${projectId}/delete/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
