@@ -6,7 +6,7 @@ from datetime import datetime
 from django.urls import path
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
-from app import forms, views
+from chatbot import forms, views
 
 
 urlpatterns = [
@@ -16,7 +16,7 @@ urlpatterns = [
     path('login/',
          LoginView.as_view
          (
-             template_name='app/login.html',
+             template_name='chatbot/login.html',
              authentication_form=forms.BootstrapAuthenticationForm,
              extra_context=
              {
