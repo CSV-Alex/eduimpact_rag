@@ -34,7 +34,9 @@
   <ItemGroup>
     <Compile Include="chatbot\forms.py" />
     <Compile Include="chatbot\models.py" />
+    <Compile Include="chatbot\services.py" />
     <Compile Include="chatbot\tests.py" />
+    <Compile Include="chatbot\urls.py" />
     <Compile Include="chatbot\views.py" />
     <Compile Include="chatbot\__init__.py" />
     <Compile Include="chatbot\migrations\__init__.py" />
