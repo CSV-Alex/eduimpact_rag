@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Recursos Generados - {{ project.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .resource-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+            .resource-card h3 {
+                color: #333;
+                margin-top: 0;
+            }
+
+        .btn-download {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .btn-download:hover {
+                background: #218838;
+            }
+
+        .resource-list {
+            margin-top: 30px;
+        }
+
+        .resource-item {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'chat_interface' project.id %}" class="back-link">← Volver al Chat</a>
+
+    <h1>📁 Recursos Generados - {{ project.name }}</h1>
+    <p>Descarga recursos listos para usar en tu clase:</p>
+
+    <div class="resource-grid">
+        <div class="resource-card">
+            <h3>📊 Plan de Clase</h3>
+            <p>CSV con cronograma detallado de actividades, materiales y evaluacion</p>
+            <button class="btn-download" onclick="downloadResource('{% url 'generate_lesson_plan' project.id %}')">
+                Descargar CSV
+            </button>
+        </div>
+
+        <div class="resource-card">
+            <h3>🎯 Seguimiento de Estudiantes</h3>
+            <p>CSV para tracking de progreso, puntos y recompensas</p>
+            <button class="btn-download" onclick="downloadResource('{% url 'generate_student_tracker' project.id %}')">
+                Descargar CSV
+            </button>
+        </div>
+
+        <div class="resource-card">
+            <h3>🎮 Sistema de Gamificacion</h3>
+            <p>JSON con estructura de niveles, recompensas y criterios</p>
+            <button class="btn-download" onclick="downloadResource('{% url 'generate_gamification_template' project.id %}')">
+                Descargar JSON
+            </button>
+        </div>
+    </div>
+
+    <div class="resource-list">
+        <h2>📚 Recursos Descargados Anteriormente</h2>
+        {% if resources %}
+        {% for resource in resources %}
+        <div class="resource-item">
+            <h4>{{ resource.title }}</h4>
+            <p>{{ resource.description }} - {{ resource.created_at|date:"d/m/Y H:i" }}</p>
+            <small>Tipo: {{ resource.get_resource_type_display }}</small>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No hay recursos descargados aún.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function downloadResource(url) {
+            // Descarga
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

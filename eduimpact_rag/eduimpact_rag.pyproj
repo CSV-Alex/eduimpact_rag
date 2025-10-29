@@ -34,6 +34,7 @@
   <ItemGroup>
     <Compile Include="chatbot\forms.py" />
     <Compile Include="chatbot\models.py" />
+    <Compile Include="chatbot\resource_generator.py" />
     <Compile Include="chatbot\services.py" />
     <Compile Include="chatbot\tests.py" />
     <Compile Include="chatbot\urls.py" />
@@ -62,6 +63,7 @@
     <Content Include="chatbot\templates\chatbot\chat.html" />
     <Content Include="chatbot\templates\chatbot\home.html" />
     <Content Include="chatbot\templates\chatbot\project_list.html" />
+    <Content Include="chatbot\templates\chatbot\resources.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="chatbot\static\chatbot\content\bootstrap.css" />

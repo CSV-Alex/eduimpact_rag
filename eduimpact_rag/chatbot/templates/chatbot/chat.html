@@ -88,7 +88,18 @@
         <a href="{% url 'project_list' %}" class="back-link">← Volver a Proyectos</a>
 
         <div class="header">
-            <h1>{{ project.name }}</h1>
+            <div>
+                <h1>{{ project.name }}</h1>
+                <small style="color: #666;">Memoria: {{ memory_size }} intercambios</small>
+            </div>
+            <div>
+                <a href="{% url 'resources_dashboard' project.id %}" style="background: #28a745; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; margin-right: 10px;">
+                    📁 Descargar Recursos
+                </a>
+                <button onclick="clearMemory()" style="background: #ff6b6b; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+                    🧹 Reiniciar Memoria
+                </button>
+            </div>
         </div>
 
         <div class="messages" id="messagesContainer">
@@ -122,7 +133,6 @@
 
             if (!message) return;
 
-            // Agregar mensaje del usuario inmediatamente
             const messagesContainer = document.getElementById('messagesContainer');
             const userMessageHTML = `
                 <div class="message user-message">
@@ -132,15 +142,12 @@
             `;
             messagesContainer.innerHTML += userMessageHTML;
 
-            // Limpiar input
             input.value = '';
 
-            // Mostrar indicador de typing
             const typingHTML = `<div class="message ai-message"><em>El asistente esta pensando...</em></div>`;
             messagesContainer.innerHTML += typingHTML;
             scrollToBottom();
 
-            // Enviar al servidor
             fetch(`/project/{{ project.id }}/message/`, {
                 method: 'POST',
                 headers: {
@@ -151,10 +158,8 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Remover indicador de typing
                 messagesContainer.removeChild(messagesContainer.lastChild);
 
-                // Agregar respuesta
                 if (data.success) {
                     const aiMessageHTML = `
                         <div class="message ai-message">
@@ -177,14 +182,12 @@
             });
         }
 
-        // Enviar con Enter
         document.getElementById('messageInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 sendMessage();
             }
         });
 
-        // Scroll al cargar
         scrollToBottom();
     </script>
 </body>
